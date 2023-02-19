@@ -4,7 +4,7 @@
     <!-- A select that display all accounts that can be selected  -->
     <div>
 
-      <p>Add an account</p>
+      <p>Add account from Mnemonic</p>
       <textarea v-model="accountMnemonic"/>
       <br/>
       <button @click="addAccount">Add account</button>
