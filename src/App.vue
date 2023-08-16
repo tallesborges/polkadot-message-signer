@@ -17,9 +17,12 @@
             {{ account.meta.name }} ({{ account.address }})
           </option>
         </select>
-
+        <div>
+          <span>Address Prefix </span>
+          <input type="text" v-model="addressPrefix"/>
+        </div>
         <p>Public Key: {{ publicKey }}</p>
-        <p>Efinity Address: {{ efinityAddress }}</p>
+        <p>Address: {{ efinityAddress }}</p>
 
         <!-- A input with the message that will be signed-->
         <p>Message to sign</p>
@@ -57,9 +60,10 @@ const selectedAccount: Ref<KeyringAddress | undefined> = ref();
 const message: Ref<string> = ref('');
 const signedMessage: Ref<string> = ref('');
 const accountMnemonic: Ref<string> = ref('');
+const addressPrefix: Ref<string> = ref('9030')
 
 const keyring = new Keyring();
-keyring.loadAll({ss58Format: 195, type: 'sr25519'});
+keyring.loadAll({ss58Format: parseInt(addressPrefix.value), type: 'sr25519'});
 
 const publicKey = computed(() => {
   if (!selectedAccount.value) {
@@ -74,7 +78,7 @@ const efinityAddress = computed(() => {
     return '';
   }
 
-  return encodeAddress(publicKey.value, 195);
+  return encodeAddress(publicKey.value, parseInt(addressPrefix.value));
 });
 
 const computedMessage = computed(() => {
